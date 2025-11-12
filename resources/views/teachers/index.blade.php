@@ -1,57 +1,68 @@
 @extends('layout')
 @section('content')
+<div class="container mt-4">
     <div class="card">
-        <div class="card-header">
-            <h2>Teachers Application</h2>
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Teacher List</h4>
+            <a href="{{ route('teachers.create') }}" class="btn btn-success btn-sm">+ Add New</a>
         </div>
         <div class="card-body">
-            <a href="{{ url('/teachers/create') }}" class="btn btn-success btn-sm" title="Add New Student">
-                <i class="fa fa-plus" aria-hidden="true"></i> Add New
-            </a>
-            <br />
-            <br />
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>S.n</th>
-                            <th>Name</th>
-                            <th>Address</th>
-                            <th>Mobile</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($teachers as $item)
+            @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
+
+            @if($teachers->isEmpty())
+                <p class="text-muted">No teachers found.</p>
+            @else
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->name }}</td>
-                                <td>{{ $item->address }}</td>
-                                <td>{{ $item->mobile }}</td>
-
+                                <th>S.n</th>
+                                <th>Photo</th>
+                                <th>Name</th>
+                                <th>Mobile</th>
+                                <th>Specialization</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($teachers as $item)
+                            <tr>
+                                <td>{{ $loop->iteration + ($teachers->currentPage()-1)*$teachers->perPage() }}</td>
                                 <td>
-                                    <a href="{{ url('/teachers/' . $item->id) }}" title="View Teacher"><button
-                                            class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i>
-                                            View</button></a>
-                                    <a href="{{ url('/teachers/' . $item->id . '/edit') }}" title="Edit Teacher"><button
-                                            class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o"
-                                                aria-hidden="true"></i> Edit</button></a>
-
-                                    <form method="POST" action="{{ url('/teachers' . '/' . $item->id) }}"
-                                        accept-charset="UTF-8" style="display:inline">
-                                        {{ method_field('DELETE') }}
-                                        {{ csrf_field() }}
-                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete Teacher"
-                                            onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fa fa-trash-o"
-                                                aria-hidden="true"></i> Delete</button>
+                                    @if($item->photo)
+                                        <img src="{{ asset('storage/'.$item->photo) }}" width="50" class="rounded" alt="photo">
+                                    @else
+                                        <img src="https://via.placeholder.com/50" width="50" class="rounded" alt="no photo">
+                                    @endif
+                                </td>
+                                <td>{{ $item->name }}</td>
+                                <td>{{ $item->mobile }}</td>
+                                <td>{{ $item->specialization }}</td>
+                                <td>
+                                    <span class="badge bg-{{ $item->status ? 'success' : 'danger' }}">
+                                        {{ $item->status ? 'Active' : 'Inactive' }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="{{ route('teachers.show',$item) }}" class="btn btn-info btn-sm">View</a>
+                                    <a href="{{ route('teachers.edit',$item) }}" class="btn btn-primary btn-sm">Edit</a>
+                                    <form action="{{ route('teachers.destroy',$item) }}" method="POST" style="display:inline">
+                                        @csrf @method('DELETE')
+                                        <button onclick="return confirm('Delete this teacher?')" class="btn btn-danger btn-sm">Delete</button>
                                     </form>
                                 </td>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
 
+                {{ $teachers->links() }}
+            @endif
         </div>
     </div>
+</div>
 @endsection

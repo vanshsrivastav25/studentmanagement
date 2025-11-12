@@ -15,8 +15,8 @@ class StudentController extends Controller
      */
     public function index(): View
     {
-        $students = Student::all();
-        return view ('students.index')->with('students', $students);
+        $students = Student::paginate(5); // instead of all()
+        return view('students.index', compact('students'));
     }
 
     /**
@@ -24,7 +24,7 @@ class StudentController extends Controller
      */
     public function create(): View
     {
-        return view ('students.create');
+        return view('students.create');
     }
 
     /**
@@ -32,25 +32,25 @@ class StudentController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-    // Validate karo inputs ko
-    $request->validate([
-        'name' => 'required|string|max:255|unique:students,name',
-        'address' => 'required|string|max:255',
-        'mobile' => 'required|string|max:15|unique:students,mobile',
-    ], [
-        'name.unique' => 'This name already exist.',
-        'mobile.unique' => 'This mobile number is already exist.',
-    ]);
+        // Validate karo inputs ko
+        $request->validate([
+            'name' => 'required|string|max:255|unique:students,name',
+            'address' => 'required|string|max:255',
+            'mobile' => 'required|string|max:15|unique:students,mobile',
+        ], [
+            'name.unique' => 'This name already exist.',
+            'mobile.unique' => 'This mobile number is already exist.',
+        ]);
 
-    // Agar validation pass ho gaya to hi data save hoga
-    Student::create([
-        'name' => $request->name,
-        'address' => $request->address,
-        'mobile' => $request->mobile,
-    ]);
+        // Agar validation pass ho gaya to hi data save hoga
+        Student::create([
+            'name' => $request->name,
+            'address' => $request->address,
+            'mobile' => $request->mobile,
+        ]);
 
-    return redirect('students')->with('flash_message', 'Student Addedd!');
-}
+        return redirect('students')->with('flash_message', 'Student Addedd!');
+    }
 
     /**
      * Display the specified resource.

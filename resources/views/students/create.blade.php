@@ -1,34 +1,52 @@
 @extends('layout')
 @section('content')
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Add New Student</h4>
+            <a href="{{ route('students.index') }}" class="btn btn-secondary btn-sm">
+                <i class="fa fa-arrow-left"></i> Back
+            </a>
+        </div>
 
-    <div class="card">
-        <div class="card-header">Studenst Page</div>
         <div class="card-body">
+            <form action="{{ url('students') }}" method="POST">
+                @csrf
 
-            <form action="{{ url('students') }}" method="post">
-                {!! csrf_field() !!}
-                <label>Name</label></br>
-                <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}">
-                @error('name')
-                    <span style="color:red;">{{ $message }}</span>
-                @enderror
-                </br>
-                <label>Address</label></br>
-                <input type="text" name="address" id="address" class="form-control" value="{{ old('address') }}">
-                @error('address')
-                    <span style="color:red;">{{ $message }}</span>
-                @enderror
-                </br>
-                <label>Mobile</label></br>
-                <input type="text" name="mobile" id="mobile" class="form-control" value="{{ old('mobile') }}">
-                @error('mobile')
-                    <span style="color:red;">{{ $message }}</span>
-                @enderror
-                </br>
-                <input type="submit" value="Save" class="btn btn-success"></br>
+                <div class="mb-3">
+                    <label for="name" class="form-label"><strong>Name</strong></label>
+                    <input type="text" name="name" id="name" class="form-control"
+                        value="{{ old('name') }}" placeholder="Enter student name">
+                    @error('name')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="address" class="form-label"><strong>Address</strong></label>
+                    <input type="text" name="address" id="address" class="form-control"
+                        value="{{ old('address') }}" placeholder="Enter address">
+                    @error('address')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="mobile" class="form-label"><strong>Mobile</strong></label>
+                    <input type="text" name="mobile" id="mobile" class="form-control"
+                        value="{{ old('mobile') }}" placeholder="Enter mobile number">
+                    @error('mobile')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="text-end">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fa fa-save"></i> Save
+                    </button>
+                </div>
             </form>
-
         </div>
     </div>
-
-@stop
+</div>
+@endsection

@@ -7,9 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Teacher extends Model
 {
-    protected $table = 'students';
-    protected $primaryKey = 'id';
-    protected $fillable = ['name', 'address', 'mobile'];
-
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'email',
+        'mobile',
+        'specialization',
+        'status',
+        'photo',
+        'address',
+    ];
+
+    protected $casts = [
+        'status' => 'boolean',
+    ];
 }
