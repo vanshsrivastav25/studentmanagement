@@ -104,7 +104,7 @@
             </div>
 
             {{-- Page Content --}}
-            <div class="col-md-9">
+            <div class="col-md-9 mt-4">
                 <div class="container">
                     @yield('content')
                 </div>

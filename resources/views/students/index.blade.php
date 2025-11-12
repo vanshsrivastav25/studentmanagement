@@ -2,10 +2,10 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h2>Laravel 9 Crud</h2>
+            <h2>Students Application</h2>
         </div>
         <div class="card-body">
-            <a href="{{ url('/student/create') }}" class="btn btn-success btn-sm" title="Add New Student">
+            <a href="{{ url('/students/create') }}" class="btn btn-success btn-sm" title="Add New Student">
                 <i class="fa fa-plus" aria-hidden="true"></i> Add New
             </a>
             <br />
