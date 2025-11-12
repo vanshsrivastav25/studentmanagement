@@ -14,7 +14,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>S.n</th>
                             <th>Name</th>
                             <th>Address</th>
                             <th>Mobile</th>
@@ -30,14 +30,14 @@
                                 <td>{{ $item->mobile }}</td>
 
                                 <td>
-                                    <a href="{{ url('/student/' . $item->id) }}" title="View Student"><button
+                                    <a href="{{ url('/students/' . $item->id) }}" title="View Student"><button
                                             class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i>
                                             View</button></a>
-                                    <a href="{{ url('/student/' . $item->id . '/edit') }}" title="Edit Student"><button
+                                    <a href="{{ url('/students/' . $item->id . '/edit') }}" title="Edit Student"><button
                                             class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o"
                                                 aria-hidden="true"></i> Edit</button></a>
 
-                                    <form method="POST" action="{{ url('/student' . '/' . $item->id) }}"
+                                    <form method="POST" action="{{ url('/students' . '/' . $item->id) }}"
                                         accept-charset="UTF-8" style="display:inline">
                                         {{ method_field('DELETE') }}
                                         {{ csrf_field() }}
